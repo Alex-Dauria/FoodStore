@@ -1,112 +1,149 @@
-import { getSession } from "../../../utils/auth";
-import { goToLogin, goToAdmin } from "../../../utils/navigate";
+import { getSession, clearSession } from "../../../utils/auth";
+import { goToLogin } from "../../../utils/navigate";
 import { PRODUCTS, getCategories } from "../../../data/data";
 import { addToCart, getCartCount } from "../../../utils/cart";
-import type { Product } from "../../../types/product";
 
 const session = getSession();
+
 if (!session) {
   goToLogin();
-} else if (session.rol === "admin") {
-  goToAdmin();
-}
+} else {
 
-const productGrid = document.getElementById("productGrid") as HTMLDivElement;
-const categoryList = document.getElementById("categoryList") as HTMLDivElement;
-const searchInput = document.getElementById("searchInput") as HTMLInputElement;
-const sectionTitle = document.getElementById("sectionTitle") as HTMLHeadingElement;
-const cartCountEl = document.getElementById("cartCount") as HTMLSpanElement;
+  const userInfo = document.getElementById("user-info");
+  if (userInfo) userInfo.textContent = `👤 ${session.email}`;
 
-let activeCategory: string = "Todas";
-
-const formatPrice = (precio: number): string =>
-  `$${precio.toLocaleString("es-AR")}`;
-
-const updateCartCount = (): void => {
-  cartCountEl.textContent = String(getCartCount());
-};
-
-const renderProducts = (products: Product[]): void => {
-  if (products.length === 0) {
-    productGrid.innerHTML = `<p class="empty-msg">No se encontraron productos.</p>`;
-    return;
+  if (session.rol === "admin") {
+    const btnAdmin = document.getElementById("btn-admin") as HTMLAnchorElement;
+    if (btnAdmin) btnAdmin.style.display = "inline";
   }
 
-  productGrid.innerHTML = products
-    .map(
-      (p) => `
-    <div class="product-card">
-      <img src="${p.imagen}" alt="${p.nombre}" />
-      <div class="product-info">
-        <h3>${p.nombre}</h3>
-        <p>${p.descripcion}</p>
-        <span class="product-price">${formatPrice(p.precio)}</span>
-      </div>
-      <button class="btn-add-cart" data-id="${p.id}">Agregar al carrito</button>
-    </div>
-  `
-    )
-    .join("");
+  let categoriaActiva = "Todas";
 
-  productGrid.querySelectorAll(".btn-add-cart").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      const id = Number((e.currentTarget as HTMLButtonElement).dataset.id);
-      const product = PRODUCTS.find((p) => p.id === id);
-      if (!product) return;
+  function actualizarCarrito(): void {
+    const btn = document.getElementById("btn-carrito");
+    if (btn) btn.textContent = `Carrito (${getCartCount()})`;
+  }
 
-      addToCart(product);
-      updateCartCount();
+  function renderProductos(filtro: string, busqueda: string = ""): void {
+    const contenedor = document.getElementById("contenedor-productos");
+    if (!contenedor) return;
 
-      const button = e.currentTarget as HTMLButtonElement;
-      button.textContent = "¡Agregado!";
-      button.classList.add("added");
-      setTimeout(() => {
-        button.textContent = "Agregar al carrito";
-        button.classList.remove("added");
-      }, 1200);
+    contenedor.innerHTML = "";
+
+    const termino = busqueda.toLowerCase().trim();
+
+    const lista = PRODUCTS.filter((p) => {
+      const coincideCategoria = filtro === "Todas" || p.categoria === filtro;
+      const coincideBusqueda =
+        termino === "" || p.nombre.toLowerCase().includes(termino);
+      return coincideCategoria && coincideBusqueda;
     });
-  });
-};
 
-const getFilteredProducts = (): Product[] => {
-  const query = searchInput.value.toLowerCase().trim();
-  return PRODUCTS.filter((p) => {
-    const matchesCategory =
-      activeCategory === "Todas" || p.categoria === activeCategory;
-    const matchesSearch = p.nombre.toLowerCase().includes(query);
-    return matchesCategory && matchesSearch;
-  });
-};
+    if (lista.length === 0) {
+      contenedor.innerHTML =
+        '<p style="color:#999;margin-top:20px;">No se encontraron productos.</p>';
+      return;
+    }
 
-const renderCategories = (): void => {
-  const categories = [{ id: 0, nombre: "Todas" }, ...getCategories()];
+    lista.forEach((producto) => {
+      const article = document.createElement("article");
+      article.innerHTML = `
+        <img src="${producto.imagen}" alt="${producto.nombre}" />
+        <div class="info-producto">
+          <h3>${producto.nombre}</h3>
+          <p>${producto.descripcion}</p>
+          <strong>$${producto.precio.toLocaleString("es-AR")}</strong>
+          <button type="button">Agregar al Carrito</button>
+        </div>
+      `;
 
-  categoryList.innerHTML = categories
-    .map(
-      (cat) => `
-    <button class="category-btn ${cat.nombre === activeCategory ? "active" : ""}"
-      data-cat="${cat.nombre}">
-      ${cat.nombre}
-    </button>
-  `
-    )
-    .join("");
+      article.querySelector("button")?.addEventListener("click", () => {
+        addToCart(producto);
+        actualizarCarrito();
 
-  categoryList.querySelectorAll(".category-btn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      activeCategory = (e.currentTarget as HTMLButtonElement).dataset.cat ?? "Todas";
-      sectionTitle.textContent =
-        activeCategory === "Todas" ? "Todos los productos" : activeCategory;
-      renderCategories();
-      renderProducts(getFilteredProducts());
+        const btn = article.querySelector("button") as HTMLButtonElement;
+        btn.textContent = "¡Agregado!";
+        btn.disabled = true;
+        setTimeout(() => {
+          btn.textContent = "Agregar al Carrito";
+          btn.disabled = false;
+        }, 1200);
+      });
+
+      contenedor.appendChild(article);
     });
+  }
+
+  function cargarCategorias(): void {
+    const lista = document.getElementById("lista-categorias");
+    if (!lista) return;
+
+    const categorias = ["Todas", ...getCategories().map((c) => c.nombre)];
+
+    categorias.forEach((cat) => {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = "#";
+      a.textContent = cat;
+
+      if (cat === "Todas") a.style.fontWeight = "bold";
+
+      a.addEventListener("click", (e: Event) => {
+        e.preventDefault();
+        categoriaActiva = cat;
+
+        lista
+          .querySelectorAll("a")
+          .forEach((link) => (link.style.fontWeight = "normal"));
+        a.style.fontWeight = "bold";
+
+        const busqueda = (
+          document.getElementById("buscar") as HTMLInputElement
+        ).value;
+        renderProductos(categoriaActiva, busqueda);
+      });
+
+      li.appendChild(a);
+      lista.appendChild(li);
+    });
+  }
+
+  function cargarBuscador(): void {
+    const form = document.getElementById("form-buscar") as HTMLFormElement;
+    const input = document.getElementById("buscar") as HTMLInputElement;
+
+    form.addEventListener("submit", (e: Event) => {
+      e.preventDefault();
+      renderProductos(categoriaActiva, input.value);
+    });
+
+    input.addEventListener("input", () => {
+      renderProductos(categoriaActiva, input.value);
+    });
+  }
+
+  document.getElementById("btn-inicio")?.addEventListener("click", (e: Event) => {
+    e.preventDefault();
+    categoriaActiva = "Todas";
+    (document.getElementById("buscar") as HTMLInputElement).value = "";
+    document
+      .querySelectorAll<HTMLAnchorElement>("#lista-categorias a")
+      .forEach((a) => (a.style.fontWeight = "normal"));
+    const primera = document.querySelector<HTMLAnchorElement>(
+      "#lista-categorias a"
+    );
+    if (primera) primera.style.fontWeight = "bold";
+    renderProductos("Todas");
   });
-};
 
-searchInput.addEventListener("input", () => {
-  renderProducts(getFilteredProducts());
-});
+  document.getElementById("btn-logout")?.addEventListener("click", (e: Event) => {
+    e.preventDefault();
+    clearSession();
+    goToLogin();
+  });
 
-updateCartCount();
-renderCategories();
-renderProducts(PRODUCTS);
+  actualizarCarrito();
+  cargarCategorias();
+  renderProductos("Todas");
+  cargarBuscador();
+}

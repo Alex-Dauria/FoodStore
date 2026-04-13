@@ -3,56 +3,50 @@ import { goToLogin, goToAdmin } from "../../../utils/navigate";
 import { getCart, getCartTotal } from "../../../utils/cart";
 
 const session = getSession();
+
 if (!session) {
   goToLogin();
 } else if (session.rol === "admin") {
   goToAdmin();
 }
 
-const cartContent = document.getElementById("cartContent") as HTMLDivElement;
+function formatPrecio(precio: number): string {
+  return `$${precio.toLocaleString("es-AR")}`;
+}
 
-const formatPrice = (precio: number): string =>
-  `$${precio.toLocaleString("es-AR")}`;
+function renderCarrito(): void {
+  const contenedor = document.getElementById("contenedor-carrito");
+  if (!contenedor) return;
 
-const renderCart = (): void => {
   const items = getCart();
 
   if (items.length === 0) {
-    cartContent.innerHTML = `<p class="empty-cart-msg">Tu carrito está vacío. <a href="../home/home.html">Ver catálogo</a></p>`;
+    contenedor.innerHTML =
+      '<p class="carrito-vacio">Tu carrito está vacío. <a href="../home/home.html">Ver catálogo</a></p>';
     return;
   }
 
-  const rows = items
-    .map(
-      (item) => `
-    <tr>
+  let html = '<table class="tabla-carrito">';
+  html +=
+    "<thead><tr><th>Producto</th><th>Precio</th><th>Cantidad</th><th>Subtotal</th></tr></thead>";
+  html += "<tbody>";
+
+  items.forEach((item) => {
+    const subtotal = item.product.precio * item.cantidad;
+    html += `<tr>
       <td>${item.product.nombre}</td>
-      <td>${formatPrice(item.product.precio)}</td>
+      <td>${formatPrecio(item.product.precio)}</td>
       <td>${item.cantidad}</td>
-      <td>${formatPrice(item.product.precio * item.cantidad)}</td>
-    </tr>
-  `
-    )
-    .join("");
+      <td>${formatPrecio(subtotal)}</td>
+    </tr>`;
+  });
+
+  html += "</tbody></table>";
 
   const total = getCartTotal();
+  html += `<div class="carrito-total">Total: <strong>${formatPrecio(total)}</strong></div>`;
 
-  cartContent.innerHTML = `
-    <table class="cart-table">
-      <thead>
-        <tr>
-          <th>Producto</th>
-          <th>Precio unitario</th>
-          <th>Cantidad</th>
-          <th>Subtotal</th>
-        </tr>
-      </thead>
-      <tbody>${rows}</tbody>
-    </table>
-    <div class="cart-total-row">
-      Total: <span>${formatPrice(total)}</span>
-    </div>
-  `;
-};
+  contenedor.innerHTML = html;
+}
 
-renderCart();
+renderCarrito();

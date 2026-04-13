@@ -3,37 +3,48 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Food Store - Catálogo</title>
-    <link rel="stylesheet" href="../store.css" />
+    <title>Food Store</title>
+    <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
-    <header class="header">
+
+    <header>
       <h1>🍔 Food Store</h1>
-      <div class="header-right">
-        <input
-          type="text"
-          id="searchInput"
-          class="search-input"
-          placeholder="Buscar producto..."
-        />
-        <a href="../cart/cart.html" class="cart-link">
-          🛒 Carrito
-          <span class="cart-count" id="cartCount">0</span>
-        </a>
-      </div>
+      <nav>
+        <ul>
+          <li><a id="btn-inicio" href="#">Inicio</a></li>
+          <li><a href="../cart/cart.html" id="btn-carrito">Carrito (0)</a></li>
+          <li><span id="user-info" style="color:white;font-size:0.85rem;padding:4px 0"></span></li>
+          <li><a id="btn-admin" href="/src/pages/admin/home/home.html" class="admin" style="display:none">Panel Admin</a></li>
+          <li><a id="btn-logout" href="#">Cerrar Sesión</a></li>
+        </ul>
+      </nav>
     </header>
 
-    <div class="main-layout">
-      <aside class="sidebar">
+    <div class="contenedor">
+
+      <aside>
         <h2>Categorías</h2>
-        <div id="categoryList"></div>
+        <ul id="lista-categorias"></ul>
       </aside>
 
-      <main class="products-area">
-        <h2 id="sectionTitle">Todos los productos</h2>
-        <div class="product-grid" id="productGrid"></div>
+      <main>
+
+        <form class="buscador" id="form-buscar" action="#">
+          <label for="buscar">Buscar productos:</label>
+          <input type="search" id="buscar" name="q" placeholder="Ej: Hamburguesa doble" />
+          <button type="submit">Buscar</button>
+        </form>
+
+        <section class="grilla" id="contenedor-productos"></section>
+
       </main>
     </div>
+
+    <footer>
+      <p>© 2026 Food Store. Todos los derechos reservados.</p>
+      <p>Contacto: <a href="mailto:info@foodstore.com">info@foodstore.com</a></p>
+    </footer>
 
     <script type="module" src="./home.ts"></script>
   </body>

@@ -3,19 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Food Store - Carrito</title>
-    <link rel="stylesheet" href="../store.css" />
+    <title>Carrito - Food Store</title>
+    <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
-    <header class="header">
+
+    <header>
       <h1>🍔 Food Store</h1>
+      <nav>
+        <ul>
+          <li><a href="../home/home.html">← Volver al catálogo</a></li>
+        </ul>
+      </nav>
     </header>
 
-    <div class="cart-container">
-      <a href="../home/home.html" class="back-link">← Volver al catálogo</a>
-      <h2>Tu carrito</h2>
-      <div id="cartContent"></div>
+    <div style="max-width:800px;margin:30px auto;padding:0 24px;">
+      <h2 style="font-size:1.3rem;margin-bottom:20px;color:#2c2c2c;">Tu carrito</h2>
+      <div id="contenedor-carrito"></div>
     </div>
+
+    <footer>
+      <p>© 2026 Food Store. Todos los derechos reservados.</p>
+    </footer>
 
     <script type="module" src="./cart.ts"></script>
   </body>
