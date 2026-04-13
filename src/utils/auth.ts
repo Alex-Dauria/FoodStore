@@ -1,33 +1,55 @@
 import type { IUser } from "../types/IUser";
-import type { Rol } from "../types/Rol";
-import { getUSer, removeUser } from "./localStorage";
-import { navigate } from "./navigate";
 
-export const checkAuhtUser = (
-  redireccion1: string,
-  redireccion2: string,
-  rol: Rol
-) => {
-  console.log("comienzo de checkeo");
+// ── localStorage: clave "users" ───────────────────────────────────────────────
 
-  const user = getUSer();
-
-  if (!user) {
-    console.log("no existe en local");
-    navigate(redireccion1);
-    return;
-  } else {
-    console.log("existe pero no tiene el rol necesario");
-
-    const parseUser: IUser = JSON.parse(user);
-    if (parseUser.role !== rol) {
-      navigate(redireccion2);
-      return;
-    }
-  }
+export const getUsers = (): IUser[] => {
+  const raw = localStorage.getItem("users");
+  return raw ? (JSON.parse(raw) as IUser[]) : [];
 };
 
-export const logout = () => {
-  removeUser();
-  navigate("/src/pages/auth/login/login.html");
+export const saveUsers = (users: IUser[]): void => {
+  localStorage.setItem("users", JSON.stringify(users));
+};
+
+// ── localStorage: clave "userData" (sesión activa) ───────────────────────────
+
+export const getSession = (): IUser | null => {
+  const raw = localStorage.getItem("userData");
+  return raw ? (JSON.parse(raw) as IUser) : null;
+};
+
+export const saveSession = (user: IUser): void => {
+  localStorage.setItem("userData", JSON.stringify(user));
+};
+
+export const clearSession = (): void => {
+  localStorage.removeItem("userData");
+};
+
+// ── Registro ──────────────────────────────────────────────────────────────────
+
+export const register = (email: string, password: string): boolean => {
+  const users = getUsers();
+  if (users.some((u) => u.email === email)) return false;
+
+  const newUser: IUser = {
+    id: crypto.randomUUID(),
+    email,
+    password,
+    rol: "client",
+  };
+
+  users.push(newUser);
+  saveUsers(users);
+  return true;
+};
+
+// ── Login ─────────────────────────────────────────────────────────────────────
+
+export const login = (email: string, password: string): IUser | null => {
+  const users = getUsers();
+  const user =
+    users.find((u) => u.email === email && u.password === password) ?? null;
+  if (user) saveSession(user);
+  return user;
 };

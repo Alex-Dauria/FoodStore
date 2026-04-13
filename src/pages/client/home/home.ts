@@ -1,19 +1,4 @@
-import { checkAuhtUser, logout } from "../../../utils/auth";
+import { goToClient } from "../../../utils/navigate";
 
-const buttonLogout = document.getElementById(
-  "logoutButton"
-) as HTMLButtonElement;
-buttonLogout?.addEventListener("click", () => {
-  logout();
-});
-
-
-const initPage = () => {
-  console.log("inicio de pagina");
-  checkAuhtUser(
-    "/src/pages/auth/login/login.html",
-    "/src/pages/admin/home/home.html",
-    "client"
-  );
-};
-initPage();
+// Esta página ya no se usa — los clientes van directo al store
+goToClient();

@@ -1,0 +1,150 @@
+/* ================================
+   VARIABLES CSS
+   ================================ */
+:root {
+  --color-primario: #ff6347;
+  --color-fondo:    #f0f0f0;
+  --color-texto:    #333;
+  --color-blanco:   #fff;
+  --color-borde:    #ddd;
+  --color-focus:    #ff4500;
+}
+
+/* ================================
+   RESET BÁSICO
+   ================================ */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ================================
+   BODY — centrado con Flexbox
+   ================================ */
+body {
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: Georgia, serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ================================
+   CARD (formulario contenedor)
+   Box model: border + padding +
+   margin + border-radius + box-shadow
+   ================================ */
+.card {
+  background-color: var(--color-blanco);
+  border: 1px solid var(--color-borde);
+  border-radius: 10px;
+  padding: 40px 36px;
+  margin: 24px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* ================================
+   TÍTULO PRINCIPAL
+   text-transform: uppercase obligatorio
+   ================================ */
+.titulo {
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 3px;
+  font-size: 1.8rem;
+  color: var(--color-primario);
+  margin-bottom: 6px;
+}
+
+/* ================================
+   SUBTÍTULO
+   ================================ */
+.subtitulo {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--color-texto);
+  line-height: 1.5;
+  margin-bottom: 28px;
+}
+
+/* ================================
+   CAMPOS DEL FORMULARIO
+   ================================ */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.campo label {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: var(--color-texto);
+}
+
+/* Inputs — width: 100%, padding, border */
+.campo input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid var(--color-borde);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: var(--color-texto);
+  background-color: var(--color-blanco);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+/* :focus — cambia el color del borde */
+.campo input:focus {
+  border-color: var(--color-focus);
+}
+
+/* ================================
+   BOTÓN INGRESAR
+   ================================ */
+.btn-ingresar {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  background-color: var(--color-primario);
+  color: var(--color-blanco);
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+/* :hover — cambia el color del botón */
+.btn-ingresar:hover {
+  background-color: var(--color-focus);
+}
+
+/* ================================
+   LINK DE REGISTRO
+   ================================ */
+.registro {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: var(--color-texto);
+}
+
+.registro a {
+  color: var(--color-primario);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.registro a:hover {
+  text-decoration: underline;
+}

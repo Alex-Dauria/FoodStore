@@ -1,11 +1,13 @@
-import { checkAuhtUser } from "../../../utils/auth";
+import { getSession } from "../../../utils/auth";
+import { goToLogin, goToAdmin } from "../../../utils/navigate";
 import { getCart, getCartTotal } from "../../../utils/cart";
 
-checkAuhtUser(
-  "/src/pages/auth/login/login.html",
-  "/src/pages/admin/home/home.html",
-  "client"
-);
+const session = getSession();
+if (!session) {
+  goToLogin();
+} else if (session.rol === "admin") {
+  goToAdmin();
+}
 
 const cartContent = document.getElementById("cartContent") as HTMLDivElement;
 

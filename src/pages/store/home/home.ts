@@ -1,13 +1,15 @@
-import { checkAuhtUser } from "../../../utils/auth";
+import { getSession } from "../../../utils/auth";
+import { goToLogin, goToAdmin } from "../../../utils/navigate";
 import { PRODUCTS, getCategories } from "../../../data/data";
 import { addToCart, getCartCount } from "../../../utils/cart";
 import type { Product } from "../../../types/product";
 
-checkAuhtUser(
-  "/src/pages/auth/login/login.html",
-  "/src/pages/admin/home/home.html",
-  "client"
-);
+const session = getSession();
+if (!session) {
+  goToLogin();
+} else if (session.rol === "admin") {
+  goToAdmin();
+}
 
 const productGrid = document.getElementById("productGrid") as HTMLDivElement;
 const categoryList = document.getElementById("categoryList") as HTMLDivElement;

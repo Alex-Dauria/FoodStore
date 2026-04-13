@@ -1,30 +1,26 @@
-import type { IUser } from "../../../types/IUser";
-import type { Rol } from "../../../types/Rol";
-import { navigate } from "../../../utils/navigate";
+import { login } from "../../../utils/auth";
+import { goToAdmin, goToClient, goToRegistro } from "../../../utils/navigate";
 
-const form = document.getElementById("form") as HTMLFormElement;
-const inputEmail = document.getElementById("email") as HTMLInputElement;
-//const inputPassword = document.getElementById("password") as HTMLInputElement;
-const selectRol = document.getElementById("rol") as HTMLSelectElement;
+const form = document.getElementById("form-login") as HTMLFormElement;
+const btnRegistro = document.getElementById("btn-registro") as HTMLAnchorElement;
 
-form.addEventListener("submit", (e: SubmitEvent) => {
+form.addEventListener("submit", (e: Event) => {
   e.preventDefault();
-  const valueEmail = inputEmail.value;
-  //const valuePassword = inputPassword.value;
-  const valueRol = selectRol.value as Rol;
 
-  if (valueRol === "admin") {
-    navigate("/src/pages/admin/home/home.html");
-  } else if (valueRol === "client") {
-    navigate("/src/pages/store/home/home.html");
+  const email = (document.getElementById("email") as HTMLInputElement).value.trim();
+  const password = (document.getElementById("password") as HTMLInputElement).value.trim();
+
+  const user = login(email, password);
+
+  if (!user) {
+    alert("Email o contraseña incorrectos.");
+    return;
   }
 
-  const user: IUser = {
-    email: valueEmail,
-    role: valueRol,
-    loggedIn: true,
-  };
+  user.rol === "admin" ? goToAdmin() : goToClient();
+});
 
-  const parseUser = JSON.stringify(user);
-  localStorage.setItem("userData", parseUser);
+btnRegistro.addEventListener("click", (e: Event) => {
+  e.preventDefault();
+  goToRegistro();
 });
