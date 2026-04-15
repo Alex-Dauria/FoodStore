@@ -10,6 +10,11 @@ form.addEventListener("submit", (e: Event) => {
   const email = (document.getElementById("email") as HTMLInputElement).value.trim();
   const password = (document.getElementById("password") as HTMLInputElement).value.trim();
 
+  if (password.length < 6) {
+    alert("La contraseña debe tener al menos 6 caracteres.");
+    return;
+  }
+
   const user = login(email, password);
 
   if (!user) {

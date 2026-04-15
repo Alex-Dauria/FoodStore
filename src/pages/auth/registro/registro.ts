@@ -15,6 +15,11 @@ form.addEventListener("submit", (e: Event) => {
     return;
   }
 
+  if (password.length < 6) {
+    alert("La contraseña debe tener al menos 6 caracteres.");
+    return;
+  }
+
   const success = register(email, password);
 
   if (!success) {
