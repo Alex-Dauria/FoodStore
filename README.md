@@ -17,7 +17,7 @@ Construida sobre el repositorio base de la cátedra ([chiro45/proteger_rutas](ht
   - Feedback visual al agregar ("¡Agregado!")
   - Vista del carrito con nombre, precio, cantidad y subtotal por ítem
   - Total general calculado automáticamente
-- **Protección de rutas** por rol: solo los clientes registrados pueden acceder al catálogo y al carrito
+- **Protección de rutas** por rol: clientes acceden al catálogo y al carrito; admins son redirigidos al panel de administración. Un usuario sin sesión es redirigido al login en cualquier ruta protegida
 
 ---
 
@@ -65,9 +65,10 @@ La aplicación estará disponible en `http://localhost:5173`.
 
 Podés registrarte desde la pantalla de inicio o usar una cuenta ya creada:
 
-| Rol    | Email               | Contraseña |
-|--------|---------------------|------------|
-| Client | cliente@test.com    | 123456     |
+| Rol    | Email                  | Contraseña |
+|--------|------------------------|------------|
+| Admin  | admin@foodstore.com    | admin123   |
+| Client | cliente@test.com       | 123456     |
 
 ---
 
@@ -84,8 +85,7 @@ src/
 │   │       ├── cart.html   ← vista del carrito
 │   │       └── cart.ts     ← lógica: render, cantidades, total
 │   ├── auth/               ← login y registro
-│   ├── admin/              ← panel de administración
-│   └── client/             ← home del cliente
+│   └── admin/              ← panel de administración
 ├── types/
 │   ├── product.ts          ← interfaces Product y CartItem
 │   └── categoria.ts        ← interface Icategoria
