@@ -241,3 +241,27 @@ footer a { color: #e57373; }
 }
 
 .btn-volver:hover { text-decoration: underline; }
+
+/* CART WRAPPER */
+.cart-wrapper {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 0 24px;
+}
+
+.cart-title {
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  color: #2c2c2c;
+}
+
+/* UTILIDADES */
+.hidden {
+  display: none;
+}
+
+.user-info {
+  color: white;
+  font-size: 0.85rem;
+  padding: 4px 0;
+}

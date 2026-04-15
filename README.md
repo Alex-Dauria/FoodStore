@@ -96,4 +96,10 @@ src/
     ├── cart.ts             ← lógica del carrito (localStorage)
     ├── localStorage.ts     ← helpers de lectura/escritura
     └── navigate.ts         ← redirecciones
+
+public/
+└── css/
+    ├── styles.css          ← estilos de la tienda y el carrito
+    ├── login.css           ← estilos de login y registro
+    └── admin.css           ← estilos del panel de administración
 ```

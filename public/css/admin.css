@@ -1,0 +1,55 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Georgia, serif; background: #f4f4f4; color: #2c2c2c; }
+
+header {
+  background: #2c3e50;
+  color: white;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+header h1 { font-size: 1.6rem; }
+header nav ul { list-style: none; display: flex; gap: 16px; align-items: center; }
+header nav a {
+  color: white; text-decoration: none; font-size: 0.9rem;
+  padding: 6px 12px; border: 1px solid rgba(255,255,255,0.4); border-radius: 4px;
+}
+header nav a:hover { background: rgba(255,255,255,0.15); }
+#user-info { font-size: 0.85rem; color: #aad4f5; }
+
+main { max-width: 960px; margin: 30px auto; padding: 0 20px; }
+main h2 {
+  font-size: 1.3rem; margin-bottom: 16px; color: #2c3e50;
+  border-bottom: 2px solid #2c3e50; padding-bottom: 8px;
+}
+
+table { width: 100%; border-collapse: collapse; background: white; margin-bottom: 30px; font-size: 0.9rem; }
+thead { background: #2c3e50; color: white; }
+thead th { padding: 12px 10px; text-align: left; }
+tbody tr:nth-child(even) { background: #f9f9f9; }
+tbody tr:hover { background: #eef2f7; }
+tbody td { padding: 10px; border-bottom: 1px solid #e0e0e0; vertical-align: middle; }
+tbody td img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; }
+.acciones a { color: #2980b9; text-decoration: none; margin-right: 8px; font-size: 0.85rem; }
+.acciones a:hover { text-decoration: underline; }
+.acciones a.eliminar { color: #c0392b; }
+
+details { background: white; border: 1px solid #ddd; border-radius: 6px; padding: 16px; }
+summary { cursor: pointer; font-weight: bold; font-size: 1rem; color: #2c3e50; padding: 4px 0; }
+summary:hover { color: #c0392b; }
+.form-grupo { margin-top: 16px; display: flex; flex-direction: column; gap: 14px; }
+.form-grupo label { font-size: 0.9rem; font-weight: bold; display: block; margin-bottom: 4px; }
+.form-grupo input, .form-grupo select, .form-grupo textarea {
+  width: 100%; max-width: 400px; padding: 8px 10px;
+  border: 1px solid #ccc; border-radius: 4px; font-size: 0.9rem; font-family: Georgia, serif;
+}
+.form-grupo textarea { height: 80px; resize: vertical; }
+.form-grupo button {
+  padding: 10px 20px; background: #2c3e50; color: white;
+  border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; width: fit-content;
+}
+.form-grupo button:hover { background: #1a252f; }
+footer { text-align: center; padding: 16px; font-size: 0.8rem; color: #888; margin-top: 40px; }

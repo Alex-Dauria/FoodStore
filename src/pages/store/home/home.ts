@@ -14,7 +14,7 @@ if (!session) {
 
   if (session.rol === "admin") {
     const btnAdmin = document.getElementById("btn-admin") as HTMLAnchorElement;
-    if (btnAdmin) btnAdmin.style.display = "inline";
+    if (btnAdmin) btnAdmin.classList.remove("hidden");
   }
 
   let categoriaActiva = "Todas";
