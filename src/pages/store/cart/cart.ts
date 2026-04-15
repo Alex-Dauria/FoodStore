@@ -1,6 +1,6 @@
 import { getSession } from "../../../utils/auth";
 import { goToLogin, goToAdmin } from "../../../utils/navigate";
-import { getCart, getCartTotal } from "../../../utils/cart";
+import { getCart, getCartTotal, clearCart } from "../../../utils/cart";
 
 const session = getSession();
 
@@ -45,8 +45,15 @@ function renderCarrito(): void {
 
   const total = getCartTotal();
   html += `<div class="carrito-total">Total: <strong>${formatPrecio(total)}</strong></div>`;
+  html += `<button id="btn-comprar" class="btn-comprar">Confirmar compra</button>`;
 
   contenedor.innerHTML = html;
+
+  contenedor.querySelector<HTMLButtonElement>("#btn-comprar")?.addEventListener("click", () => {
+    clearCart();
+    alert("¡Muchas gracias por tu compra!");
+    renderCarrito();
+  });
 }
 
 renderCarrito();

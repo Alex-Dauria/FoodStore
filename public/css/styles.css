@@ -242,6 +242,25 @@ footer a { color: #e57373; }
 
 .btn-volver:hover { text-decoration: underline; }
 
+.btn-comprar {
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-comprar:hover {
+  background-color: #1e8449;
+}
+
 /* CART WRAPPER */
 .cart-wrapper {
   max-width: 800px;

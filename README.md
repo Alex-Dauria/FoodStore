@@ -8,15 +8,16 @@ Construida sobre el repositorio base de la cátedra ([chiro45/proteger_rutas](ht
 
 ## Funcionalidades
 
-- **Catálogo de productos** renderizado dinámicamente desde un array tipado en TypeScript
+- **Catálogo de productos** con 20 productos en 6 categorías, renderizado dinámicamente desde un array tipado en TypeScript
 - **Búsqueda por nombre** en tiempo real mientras el usuario escribe
-- **Filtrado por categoría** desde el menú lateral, con opción de volver a ver todos
+- **Filtrado por categoría** desde el menú lateral, con opción de volver a ver todos. Productos sin stock muestran el botón deshabilitado
 - **Carrito de compras con persistencia en `localStorage`**:
   - Agregar productos desde el catálogo
   - Incrementa la cantidad si el producto ya fue agregado (no duplica ítems)
   - Feedback visual al agregar ("¡Agregado!")
   - Vista del carrito con nombre, precio, cantidad y subtotal por ítem
   - Total general calculado automáticamente
+- **Panel de administración** con tabla de productos renderizada dinámicamente desde `PRODUCTS`
 - **Protección de rutas** por rol: clientes acceden al catálogo y al carrito; admins son redirigidos al panel de administración. Un usuario sin sesión es redirigido al login en cualquier ruta protegida
 
 ---
@@ -88,7 +89,7 @@ src/
 │   └── admin/              ← panel de administración
 ├── types/
 │   ├── product.ts          ← interfaces Product y CartItem
-│   └── categoria.ts        ← interface Icategoria
+│   └── category.ts         ← interface ICategory
 ├── data/
 │   └── data.ts             ← PRODUCTS y getCategories()
 └── utils/

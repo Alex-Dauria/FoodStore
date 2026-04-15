@@ -36,6 +36,10 @@ export function getCartTotal(): number {
   return total;
 }
 
+export function clearCart(): void {
+  localStorage.removeItem(CART_KEY);
+}
+
 export function getCartCount(): number {
   const cart = getCart();
   let count = 0;
