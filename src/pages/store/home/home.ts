@@ -33,10 +33,16 @@ if (!session) {
     const termino = busqueda.toLowerCase().trim();
 
     const lista = PRODUCTS.filter((p) => {
-      const coincideCategoria = filtro === "Todas" || p.categoria === filtro;
+      const coincideCategoria =
+        filtro === "Todas" || p.categorias.some((c) => c.nombre === filtro);
       const coincideBusqueda =
         termino === "" || p.nombre.toLowerCase().includes(termino);
-      return coincideCategoria && coincideBusqueda;
+      return coincideCategoria && coincideBusqueda && !p.eliminado;
+    }).sort((a, b) => {
+      const orden = ["Pizzas", "Hamburguesas", "Empanadas", "Ensaladas", "Bebidas", "Postres"];
+      const catA = orden.indexOf(a.categorias[0]?.nombre);
+      const catB = orden.indexOf(b.categorias[0]?.nombre);
+      return catA - catB;
     });
 
     if (lista.length === 0) {
@@ -53,7 +59,9 @@ if (!session) {
           <h3>${producto.nombre}</h3>
           <p>${producto.descripcion}</p>
           <strong>$${producto.precio.toLocaleString("es-AR")}</strong>
-          <button type="button">Agregar al Carrito</button>
+          <button type="button" ${!producto.disponible || producto.stock === 0 ? 'disabled' : ''}>
+            ${!producto.disponible || producto.stock === 0 ? 'Sin stock' : 'Agregar al Carrito'}
+          </button>
         </div>
       `;
 
@@ -78,7 +86,13 @@ if (!session) {
     const lista = document.getElementById("lista-categorias");
     if (!lista) return;
 
-    const categorias = ["Todas", ...getCategories().map((c) => c.nombre)];
+    const orden = ["Pizzas", "Hamburguesas", "Empanadas", "Ensaladas", "Bebidas", "Postres"];
+    const categorias = [
+      "Todas",
+      ...getCategories()
+        .map((c) => c.nombre)
+        .sort((a, b) => orden.indexOf(a) - orden.indexOf(b)),
+    ];
 
     categorias.forEach((cat) => {
       const li = document.createElement("li");
