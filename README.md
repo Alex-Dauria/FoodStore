@@ -104,3 +104,9 @@ public/
     ├── login.css           ← estilos de login y registro
     └── admin.css           ← estilos del panel de administración
 ```
+
+---
+
+## Video de presentación
+
+[Ver en YouTube](https://youtu.be/TK_qjZ019A4)
